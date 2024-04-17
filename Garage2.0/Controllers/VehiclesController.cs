@@ -54,8 +54,17 @@ namespace Garage2._0.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels,ArrivalTime")] Vehicle vehicle)
-        {
+        public async Task<IActionResult> Create([Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels,ArrivalTime")] Vehicle vehicle) {
+
+            var searchResult = _context.Vehicles.Any(v => v.LicensePlate == vehicle.LicensePlate);
+
+            if (searchResult) {
+                ModelState.AddModelError("LicensePlate", "A vehicle with this license plate already exists.");
+            }
+            // if true we should add a validation error to the modelstate or something? idk what this is called
+            // ideally it should be treated just as if any rule specified in a data annotation was broken 
+            
+            // vehicle.LicensePlate
             if (ModelState.IsValid)
             {
                 _context.Add(vehicle);
