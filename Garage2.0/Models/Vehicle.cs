@@ -3,10 +3,9 @@
 namespace Garage2._0.Models;
 
 public class Vehicle {
-    
     [Key]
     public string LicensePlate { get; set; } = string.Empty;
-    
+
     public VehicleType? VehicleType { get; set; }
 
     public string Color { get; set; } = string.Empty;
