@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Garage2._0.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Vehicle",
+                name: "Vehicles",
                 columns: table => new
                 {
                     LicensePlate = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -25,7 +25,7 @@ namespace Garage2._0.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vehicle", x => x.LicensePlate);
+                    table.PrimaryKey("PK_Vehicles", x => x.LicensePlate);
                 });
         }
 
@@ -33,7 +33,7 @@ namespace Garage2._0.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Vehicle");
+                name: "Vehicles");
         }
     }
 }
