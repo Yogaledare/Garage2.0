@@ -50,7 +50,7 @@ namespace Garage2._0.Migrations
 
                     b.HasKey("LicensePlate");
 
-                    b.ToTable("Vehicle");
+                    b.ToTable("Vehicles");
                 });
 #pragma warning restore 612, 618
         }
