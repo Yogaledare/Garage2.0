@@ -22,7 +22,7 @@ namespace Garage2._0.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vehicle.ToListAsync());
+            return View(await _context.Vehicles.ToListAsync());
         }
 
         // GET: Vehicles/Details/5
@@ -33,7 +33,7 @@ namespace Garage2._0.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicle
+            var vehicle = await _context.Vehicles
                 .FirstOrDefaultAsync(m => m.LicensePlate == id);
             if (vehicle == null)
             {
@@ -73,7 +73,7 @@ namespace Garage2._0.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicle.FindAsync(id);
+            var vehicle = await _context.Vehicles.FindAsync(id);
             if (vehicle == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace Garage2._0.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicle
+            var vehicle = await _context.Vehicles
                 .FirstOrDefaultAsync(m => m.LicensePlate == id);
             if (vehicle == null)
             {
@@ -139,10 +139,10 @@ namespace Garage2._0.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var vehicle = await _context.Vehicle.FindAsync(id);
+            var vehicle = await _context.Vehicles.FindAsync(id);
             if (vehicle != null)
             {
-                _context.Vehicle.Remove(vehicle);
+                _context.Vehicles.Remove(vehicle);
             }
 
             await _context.SaveChangesAsync();
@@ -151,7 +151,7 @@ namespace Garage2._0.Controllers
 
         private bool VehicleExists(string id)
         {
-            return _context.Vehicle.Any(e => e.LicensePlate == id);
+            return _context.Vehicles.Any(e => e.LicensePlate == id);
         }
     }
 }

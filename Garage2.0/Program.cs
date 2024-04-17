@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Garage2._0.Data;
+using Garage2._0.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<Garage2_0Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Garage2_0Context") ?? throw new InvalidOperationException("Connection string 'Garage2_0Context' not found.")));
@@ -28,5 +30,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+DbInitializer.Seed(app);
+
 
 app.Run();
