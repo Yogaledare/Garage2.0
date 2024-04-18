@@ -1,0 +1,48 @@
+﻿@model Garage2._0.Models.SummaryViewModel
+
+@{
+    ViewData["Title"] = "Summary";
+}
+
+<h1>Summary</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Liscens Plate
+            </th>
+            <th>
+                VehicleType
+            </th>
+            <th>
+               Arrived Time
+            </th>
+            <th>
+                Duration
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Vehicles)
+        {
+            
+            var totalhours = (DateTime.Now - item.ArrivalTime).TotalHours;
+            
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LicensePlate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalTime)
+                </td>
+                <td>
+                    @Math.Round(totalhours) hours
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

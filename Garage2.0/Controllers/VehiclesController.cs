@@ -172,5 +172,11 @@ namespace Garage2._0.Controllers
             InvoiceViewModel m = new InvoiceViewModel(licensePlate, date);
             return View(m);
         } 
+
+        public IActionResult Summary()
+        {
+            SummaryViewModel m = new SummaryViewModel(_context.Vehicles);
+            return View(m);
+        }
     }
 }
