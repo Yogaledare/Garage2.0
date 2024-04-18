@@ -28,11 +28,7 @@ namespace Garage2._0.Controllers
         // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+      
             var vehicle = await _context.Vehicles
                 .FirstOrDefaultAsync(m => m.VehicleId == id);
             if (vehicle == null)
