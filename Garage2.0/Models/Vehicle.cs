@@ -6,7 +6,7 @@ public class Vehicle {
 
     
     public int VehicleId { get; init; }
-        
+    
     
     [Required]
     [StringLength(40, ErrorMessage = "String cannot exceed 40 characters.")]

@@ -15,17 +15,19 @@ namespace Garage2._0.Migrations
                 name: "Vehicles",
                 columns: table => new
                 {
-                    LicensePlate = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    VehicleType = table.Column<int>(type: "int", nullable: true),
-                    Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VehicleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LicensePlate = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    VehicleType = table.Column<int>(type: "int", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Model = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     NumberOfWheels = table.Column<int>(type: "int", nullable: false),
                     ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vehicles", x => x.LicensePlate);
+                    table.PrimaryKey("PK_Vehicles", x => x.VehicleId);
                 });
         }
 

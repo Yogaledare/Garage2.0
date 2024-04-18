@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage2._0.Migrations
 {
     [DbContext(typeof(Garage2_0Context))]
-    [Migration("20240417124103_Init")]
+    [Migration("20240418081140_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -27,31 +27,42 @@ namespace Garage2._0.Migrations
 
             modelBuilder.Entity("Garage2._0.Models.Vehicle", b =>
                 {
-                    b.Property<string>("LicensePlate")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("VehicleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VehicleId"));
 
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Brand")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Color")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("LicensePlate")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<int>("NumberOfWheels")
                         .HasColumnType("int");
 
-                    b.Property<int?>("VehicleType")
+                    b.Property<int>("VehicleType")
                         .HasColumnType("int");
 
-                    b.HasKey("LicensePlate");
+                    b.HasKey("VehicleId");
 
                     b.ToTable("Vehicles");
                 });
