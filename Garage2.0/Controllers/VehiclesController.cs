@@ -150,19 +150,25 @@ namespace Garage2._0.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            //ArgumentException: The key value at position 0 of the call to 'DbSet<Vehicle>.Find' was of type 'string', which does not match the property type of 'int'.
             var vehicle = await _context.Vehicles.FindAsync(id);
-            if (vehicle != null)
-            {
-                _context.Vehicles.Remove(vehicle);
-            }
+            //if (vehicle != null)
+            //{
+            //    _context.Vehicles.Remove(vehicle);
+            //}
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //await _context.SaveChangesAsync();
+            return RedirectToAction("Invoice");
         }
 
         private bool VehicleExists(int id)
         {
             return _context.Vehicles.Any(e => e.VehicleId == id);
         }
+
+        public IActionResult Invoice(int id)
+        {
+            return View();
+        } 
     }
 }
