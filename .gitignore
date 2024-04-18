@@ -482,3 +482,5 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/Garage2.0/Migrations
+/Garage2.0/Properties
