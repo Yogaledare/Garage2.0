@@ -17,14 +17,38 @@
                 <input asp-for="LicensePlate" class="form-control" />
                 <span asp-validation-for="LicensePlate" class="text-danger"></span>
             </div>
+            
+     
+                
+                @* <div class="dropdown"> *@
+                @*     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> *@
+                @*         Dropdown button *@
+                @*     </button> *@
+                @*     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> *@
+                @*         <a class="dropdown-item" href="#">Action</a> *@
+                @*         <a class="dropdown-item" href="#">Another action</a> *@
+                @*         <a class="dropdown-item" href="#">Something else here</a> *@
+                @*     </div> *@
+                @* </div> *@
+                
+                
+                @* <div class="dropdown-menu"> *@
+                @*     <h6 class="dropdown-header">Dropdown header</h6> *@
+            @*     <a class="dropdown-item" href="#">Action</a> *@
+            @*     <a class="dropdown-item" href="#">Another action</a> *@
+            @* </div> *@
             <div class="form-group">
                 <label asp-for="VehicleType" class="control-label"></label>
-                <input asp-for="VehicleType" class="form-control" />
+                <select asp-for="VehicleType" class="form-control" asp-items="@Html.GetEnumSelectList<VehicleType>()">
+                    <option value="" selected disabled>Choose Vehicle Type</option>
+                </select>
+                @* <select asp-for="VehicleType" asp-items="Html.GetEnumSelectList<VehicleType>()" class="form-control"></select> *@
+                @* <input asp-for="VehicleType" class="form-control"/> *@
                 <span asp-validation-for="VehicleType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                <input asp-for="Color" class="form-control" />
+                <input asp-for="Color" class="form-control"/>
                 <span asp-validation-for="Color" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -42,11 +66,11 @@
                 <input asp-for="NumberOfWheels" class="form-control" />
                 <span asp-validation-for="NumberOfWheels" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ArrivalTime" class="control-label"></label>
-                <input asp-for="ArrivalTime" class="form-control" />
-                <span asp-validation-for="ArrivalTime" class="text-danger"></span>
-            </div>
+            @* <div class="form-group"> *@
+            @*     <label asp-for="ArrivalTime" class="control-label"></label> *@
+            @*     <input asp-for="ArrivalTime" class="form-control" /> *@
+            @*     <span asp-validation-for="ArrivalTime" class="text-danger"></span> *@
+            @* </div> *@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
