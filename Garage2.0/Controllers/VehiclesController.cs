@@ -26,7 +26,7 @@ namespace Garage2._0.Controllers
         }
 
         // GET: Vehicles/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace Garage2._0.Controllers
             }
 
             var vehicle = await _context.Vehicles
-                .FirstOrDefaultAsync(m => m.LicensePlate == id);
+                .FirstOrDefaultAsync(m => m.VehicleId == id);
             if (vehicle == null)
             {
                 return NotFound();

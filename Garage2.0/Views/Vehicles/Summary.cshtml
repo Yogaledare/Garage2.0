@@ -4,8 +4,9 @@
     ViewData["Title"] = "Summary";
 }
 
-<h1>Summary</h1>
-
+<h1>Parking Lot</h1>
+<a asp-action="Create">Park a new vehicle</a>
+<div>Placeholder for search</div>
 <table class="table">
     <thead>
         <tr>
@@ -41,6 +42,11 @@
                 </td>
                 <td>
                     @Math.Round(totalhours) hours
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
                 </td>
             </tr>
         }
