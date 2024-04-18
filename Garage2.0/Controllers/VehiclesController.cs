@@ -152,10 +152,11 @@ namespace Garage2._0.Controllers
         {
             //ArgumentException: The key value at position 0 of the call to 'DbSet<Vehicle>.Find' was of type 'string', which does not match the property type of 'int'.
             var vehicle = await _context.Vehicles.FindAsync(id);
-            //if (vehicle != null)
-            //{
-            //    _context.Vehicles.Remove(vehicle);
-            //}
+            if (vehicle != null)
+            {
+                // _context.Vehicles.Remove(vehicle);
+                return RedirectToAction("Invoice", new { licensePlate = vehicle.LicensePlate, date = vehicle.ArrivalTime });
+            }
 
             //await _context.SaveChangesAsync();
             return RedirectToAction("Invoice");
@@ -166,9 +167,10 @@ namespace Garage2._0.Controllers
             return _context.Vehicles.Any(e => e.VehicleId == id);
         }
 
-        public IActionResult Invoice(int id)
+        public IActionResult Invoice(string licensePlate, DateTime date)
         {
-            return View();
+            InvoiceViewModel m = new InvoiceViewModel(licensePlate, date);
+            return View(m);
         } 
     }
 }
