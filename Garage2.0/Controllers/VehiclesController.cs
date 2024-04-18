@@ -124,15 +124,15 @@ namespace Garage2._0.Controllers
         }
 
         // GET: Vehicles/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
             var vehicle = await _context.Vehicles
-                .FirstOrDefaultAsync(m => m.LicensePlate == id);
+                .FirstOrDefaultAsync(m => m.VehicleId == id);
             if (vehicle == null)
             {
                 return NotFound();
@@ -148,13 +148,15 @@ namespace Garage2._0.Controllers
         {
             //ArgumentException: The key value at position 0 of the call to 'DbSet<Vehicle>.Find' was of type 'string', which does not match the property type of 'int'.
             var vehicle = await _context.Vehicles.FindAsync(id);
-            //if (vehicle != null)
-            //{
-            //    _context.Vehicles.Remove(vehicle);
-            //}
+            if (vehicle != null)
+            {
+                //_context.Vehicles.Remove(vehicle);
+                return RedirectToAction("Invoice", new { licensePlate = vehicle.LicensePlate, date = vehicle.ArrivalTime });
 
-            //await _context.SaveChangesAsync();
-            return RedirectToAction("Invoice");
+            }
+
+            // await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         private bool VehicleExists(string id)
@@ -162,9 +164,12 @@ namespace Garage2._0.Controllers
             return _context.Vehicles.Any(e => e.LicensePlate == id);
         }
 
-        public IActionResult Invoice(int id)
+        public IActionResult Invoice(string licensePlate, DateTime date)
         {
-            return View();
+            InvoiceViewModel m = new InvoiceViewModel(licensePlate, date);
+          
+
+            return View(m);
         } 
     }
 }
