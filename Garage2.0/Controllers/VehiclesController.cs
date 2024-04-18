@@ -156,12 +156,12 @@ namespace Garage2._0.Controllers
             var vehicle = await _context.Vehicles.FindAsync(id);
             if (vehicle != null)
             {
-                // _context.Vehicles.Remove(vehicle);
-                return RedirectToAction("Invoice", new { licensePlate = vehicle.LicensePlate, date = vehicle.ArrivalTime });
+                _context.Vehicles.Remove(vehicle);
+                
             }
 
-            //await _context.SaveChangesAsync();
-            return RedirectToAction("Invoice");
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Invoice", new { licensePlate = vehicle.LicensePlate, date = vehicle.ArrivalTime });
         }
 
         private bool VehicleExists(int id)
