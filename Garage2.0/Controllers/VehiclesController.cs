@@ -20,10 +20,25 @@ namespace Garage2._0.Controllers
         }
 
         // GET: Vehicles
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Vehicles.ToListAsync());
+        public async Task<IActionResult> Index(string? licencePlateSearch = null) {
+
+            var vehicles = _context.Vehicles;
+            List<Vehicle> output = new List<Vehicle>();
+           
+            if (licencePlateSearch != null) {
+                output = await vehicles.Where(v => v.LicensePlate == licencePlateSearch).ToListAsync(); 
+            }
+            else {
+                output = await vehicles.ToListAsync(); 
+            }
+
+            SummaryViewModel m = new SummaryViewModel(output);
+            
+            return View(m);
         }
+        
+        
+        
 
         // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int id)
@@ -171,10 +186,31 @@ namespace Garage2._0.Controllers
             return View(m);
         } 
 
-        public IActionResult Summary()
-        {
-            SummaryViewModel m = new SummaryViewModel(_context.Vehicles);
-            return View(m);
-        }
+        // public IActionResult Summary()
+        // {
+        //     SummaryViewModel m = new SummaryViewModel(_context.Vehicles);
+        //     return View(m);
+        // }
     }
 }
+
+
+
+
+        
+        
+// var vehicles = _context.Vehicles
+//     .Where(v => string.IsNullOrEmpty(licencePlateSearch) || v.LicensePlate.Contains(licencePlateSearch))
+//     .ToListAsync();
+//
+// List<Vehicle> output = await vehicles; 
+        
+        
+// public async Task<IActionResult> Index() {
+//     var output = await _context.Vehicles.ToListAsync();  
+//     
+//     
+//     
+//     return View(output);
+// }
+
