@@ -29,7 +29,7 @@ public class Vehicle {
     public string? Model { get; set; }
     
     [Required]
-    [Range(1, 10)]
+    [Range(0, 10)]
     public int NumberOfWheels { get; set; }
 
     [Required]
