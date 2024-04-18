@@ -8,18 +8,30 @@ public class Vehicle {
     public int VehicleId { get; init; }
         
     
+    [Required]
+    [StringLength(40, ErrorMessage = "String cannot exceed 40 characters.")]
     [RegularExpression("^[A-Z]{3}\\d{3}$", ErrorMessage = "License Plate must be in the format 'ABC123'.")]
-    public string LicensePlate { get; set; }
+    public string? LicensePlate { get; set; }
 
+    [Required]
     public VehicleType VehicleType { get; set; }
     
-    public string Color { get; set; }
+    [Required]
+    [StringLength(40, ErrorMessage = "String cannot exceed 40 characters.")]
+    public string? Color { get; set; }
 
-    public string Brand { get; set; }
+    [Required]
+    [StringLength(40, ErrorMessage = "String cannot exceed 40 characters.")]
+    public string? Brand { get; set; }
 
-    public string Model { get; set; }
-
+    [Required]
+    [StringLength(40, ErrorMessage = "String cannot exceed 40 characters.")]
+    public string? Model { get; set; }
+    
+    [Required]
+    [Range(1, 10)]
     public int NumberOfWheels { get; set; }
 
+    [Required]
     public DateTime ArrivalTime { get; set; }
 }

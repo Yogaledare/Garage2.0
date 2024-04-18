@@ -61,8 +61,6 @@ namespace Garage2._0.Controllers
             if (searchResult) {
                 ModelState.AddModelError("LicensePlate", "A vehicle with this license plate already exists.");
             }
-            // if true we should add a validation error to the modelstate or something? idk what this is called
-            // ideally it should be treated just as if any rule specified in a data annotation was broken 
             
             // vehicle.LicensePlate
             if (ModelState.IsValid)
