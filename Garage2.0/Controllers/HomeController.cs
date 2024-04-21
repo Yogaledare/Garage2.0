@@ -1,21 +1,33 @@
 using Garage2._0.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Garage2._0.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Garage2._0.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly Garage2_0Context _context;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
+        public HomeController(ILogger<HomeController> logger, Garage2_0Context context) {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
+        public async Task<IActionResult> Index() {
+            var typeCounts = await _context.Vehicles
+                .GroupBy(v => v.VehicleType)
+                .Select(group => new TypeCountViewModel {
+                    VehicleType = group.Key, 
+                    Count = group.Count()
+                    
+                })
+                .ToListAsync();
+
+
+            return View(typeCounts);
         }
 
         public IActionResult Privacy()
