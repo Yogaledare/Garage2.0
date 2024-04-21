@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TypeCountViewModel> 
+﻿@model HomeViewModel 
 
 @{
     ViewData["Title"] = "Home Page";
@@ -20,14 +20,33 @@
     </div>
 
 </div>
+
 @section Scripts {
     <script src="~/js/charts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const vehicleTypesData = @Html.Raw(Json.Serialize(Model.Select(m => new { label = m.VehicleType.ToString(), y = m.Count })));
-            const wheelsData = @Html.Raw(Json.Serialize(Model.Select(m => new { label = m.VehicleType.ToString(), y = m.TotalWheels })));
-
-            setupCharts(vehicleTypesData, wheelsData);
+            const serializedModel = @Html.Raw(Json.Serialize(Model));
+            initializeChartsFromModel(serializedModel);
         });
     </script>
 }
+
+
+
+@* *@
+@* @section Scripts { *@
+@*     <script src="~/js/charts.js"></script> *@
+@*     <script> *@
+@*      *@
+@*      *@
+@*      *@
+@*      *@
+@*      *@
+@*         document.addEventListener('DOMContentLoaded', function () { *@
+@*             const vehicleTypesData = @Html.Raw(Json.Serialize(Model.VehicleTypeSummaries.Select(m => new {label = m.VehicleType.ToString(), y = m.Count}))); *@
+@*             const wheelsData = @Html.Raw(Json.Serialize(Model.VehicleTypeSummaries.Select(m => new {label = m.VehicleType.ToString(), y = m.TotalWheels}))); *@
+@* *@
+@*             setupCharts(vehicleTypesData, wheelsData); *@
+@*         }); *@
+@*     </script> *@
+@* } *@

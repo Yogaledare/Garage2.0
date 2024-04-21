@@ -34,4 +34,6 @@ public class Vehicle {
 
     [Required]
     public DateTime ArrivalTime { get; set; }
+
+    public DateTime? DepartureTime { get; set; }
 }
