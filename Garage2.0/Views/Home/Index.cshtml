@@ -20,41 +20,14 @@
     </div>
 
 </div>
+@section Scripts {
+    <script src="~/js/charts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const vehicleTypesData = @Html.Raw(Json.Serialize(Model.Select(m => new { label = m.VehicleType.ToString(), y = m.Count })));
+            const wheelsData = @Html.Raw(Json.Serialize(Model.Select(m => new { label = m.VehicleType.ToString(), y = m.TotalWheels })));
 
-@* <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script> *@
-<script>
-function createDoughnutChart(containerId, titleText, dataPoints) {
-    const chart = new CanvasJS.Chart(containerId, {
-        animationEnabled: true,
-        title: {
-            text: titleText,
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontsize: 16,
-        },
-        creditText: "",
-        data: [{
-            type: "doughnut",
-            dataPoints: dataPoints
-        }],
-        toolTip: {
-            fontFamily: "Arial, Helvetica, sans-serif"
-        },
-        legend: {
-            fontFamily: "Arial, Helvetica, sans-serif"
-        },
-    });
-    chart.render();
+            setupCharts(vehicleTypesData, wheelsData);
+        });
+    </script>
 }
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const vehicleTypesData = @Html.Raw(Json.Serialize(Model.Select(m => new { label = m.VehicleType.ToString(), y = m.Count })));
-    createDoughnutChart("chartContainer", "Parked Vehicle Types", vehicleTypesData);
-
-    const wheelsData = @Html.Raw(Json.Serialize(Model.Select(m => new { label = m.VehicleType.ToString(), y = m.TotalWheels })));
-    createDoughnutChart("wheelsChartContainer", "Wheels Distribution", wheelsData);
-});
-
-
-</script>
-
