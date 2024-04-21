@@ -4,71 +4,57 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Garage 6</h1>
-    <p>MVC Garage App for Team 6</p>
+<div class="container">
     <div class="row">
-        <div class="col-4">
+        <div class="col-lg-3">
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
 
-            <canvas id="vehicleTypeChard" width="400" height="400">
-            </canvas>
         </div>
+        
+        <div class="col-lg-3">
+            <div id="wheelsChartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+        
+        
+
     </div>
+
 </div>
 
-
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script >
-        const setupVehicleTypeChart = () => {
-            const ctx = document.getElementById("vehicleTypeChard").getContext('2d');
-            const data = {
-                labels: @Html.Raw(Json.Serialize(Model.Select(v => v.VehicleType.ToString()))),
-                datasets: [{
-                    label: 'Vehicle Count',
-                    data: @Html.Raw(Json.Serialize(Model.Select(v => v.Count))),
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)',
-                        'rgba(153, 102, 255, 0.5)',
-                        'rgba(255, 159, 64, 0.5)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            };
-            
-            const config = {
-                type: 'doughnut',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Distribution of Vehicle Types'
-                        }
-                    }
-                }
-            };
-            
-            new Chart(ctx, config);
-        };
-        
-        document.addEventListener('DOMContentLoaded', setupVehicleTypeChart);
-        
-    </script>
-
+@* <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script> *@
+<script>
+function createDoughnutChart(containerId, titleText, dataPoints) {
+    const chart = new CanvasJS.Chart(containerId, {
+        animationEnabled: true,
+        title: {
+            text: titleText,
+            fontFamily: "Arial, Helvetica, sans-serif",
+            fontsize: 16,
+        },
+        creditText: "",
+        data: [{
+            type: "doughnut",
+            dataPoints: dataPoints
+        }],
+        toolTip: {
+            fontFamily: "Arial, Helvetica, sans-serif"
+        },
+        legend: {
+            fontFamily: "Arial, Helvetica, sans-serif"
+        },
+    });
+    chart.render();
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const vehicleTypesData = @Html.Raw(Json.Serialize(Model.Select(m => new { label = m.VehicleType.ToString(), y = m.Count })));
+    createDoughnutChart("chartContainer", "Parked Vehicle Types", vehicleTypesData);
+
+    const wheelsData = @Html.Raw(Json.Serialize(Model.Select(m => new { label = m.VehicleType.ToString(), y = m.TotalWheels })));
+    createDoughnutChart("wheelsChartContainer", "Wheels Distribution", wheelsData);
+});
+
+
+</script>
+

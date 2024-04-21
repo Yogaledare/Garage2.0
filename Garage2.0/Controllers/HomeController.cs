@@ -21,8 +21,8 @@ namespace Garage2._0.Controllers
                 .GroupBy(v => v.VehicleType)
                 .Select(group => new TypeCountViewModel {
                     VehicleType = group.Key, 
-                    Count = group.Count()
-                    
+                    Count = group.Count(),
+                    TotalWheels = group.Sum(v => v.NumberOfWheels)
                 })
                 .ToListAsync();
 
