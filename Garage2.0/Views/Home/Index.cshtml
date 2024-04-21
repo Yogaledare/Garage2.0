@@ -1,5 +1,6 @@
 ﻿@model HomeViewModel 
 
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -21,16 +22,30 @@
 
 </div>
 
+
+@functions {
+    private string PrepareChartData(IEnumerable<VehicleTypeSummary> summaries, Func<VehicleTypeSummary, int> valueSelector) {
+        var dataPoints = summaries.Select(m => new {
+            label = m.VehicleType.ToString(),
+            y = valueSelector(m)
+        });
+
+        return System.Text.Json.JsonSerializer.Serialize(dataPoints);
+    }
+}
+
+
 @section Scripts {
     <script src="~/js/charts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const serializedModel = @Html.Raw(Json.Serialize(Model));
-            initializeChartsFromModel(serializedModel);
+            const vehicleTypesData = @Html.Raw(PrepareChartData(Model.VehicleTypeSummaries, m => m.Count));
+            const wheelsData = @Html.Raw(PrepareChartData(Model.VehicleTypeSummaries, m => m.TotalWheels));
+
+            setupCharts(vehicleTypesData, wheelsData);
         });
     </script>
 }
-
 
 
 @* *@
