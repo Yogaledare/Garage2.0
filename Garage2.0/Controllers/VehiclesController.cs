@@ -216,6 +216,7 @@ namespace Garage2._0.Controllers {
         }
 
         // GET: Vehicles/Delete/5
+        //Display a confirmation page to confirm whether the user really wants to delete this item
         public async Task<IActionResult> Delete(int id) {
             // if (id == null)
             // {
@@ -233,10 +234,11 @@ namespace Garage2._0.Controllers {
         }
 
         // POST: Vehicles/Delete/5
+        //Handle the actual delete operation
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
-            //ArgumentException: The key value at position 0 of the call to 'DbSet<Vehicle>.Find' was of type 'string', which does not match the property type of 'int'.
+        
             var vehicle = await _context.Vehicles
                 .WhereActive()
                 .FirstOrDefaultAsync(v => v.VehicleId == id);
@@ -246,6 +248,7 @@ namespace Garage2._0.Controllers {
             }
 
             vehicle.DepartureTime = DateTime.Now;
+            _parkingSpotRepository.onLeaveVehicle(vehicle);
             _context.Update(vehicle);
             await _context.SaveChangesAsync();
 
