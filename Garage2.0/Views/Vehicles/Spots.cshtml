@@ -1,0 +1,46 @@
+﻿@model Garage2._0.Models.SpotViewModel
+@{
+    List<int> ints = Model.Spots;
+}
+@{
+    ViewData["Title"] = "Spots";
+}
+<style>
+    .data-present {
+        background-color: red;
+    }
+
+    .data-absent {
+        background-color: green;
+    }
+</style>
+
+<div class="container mt-3">
+    <table class="table table-bordered">
+        <tbody>
+            @for (int row = 0; row < 10; row++)
+            {
+                <tr>
+                    @for (int col = 0; col < 10; col++)
+                    {
+                        int index = row * 10 + col;
+                        if (ints.Contains(index))
+                        {
+                            <td class=" bg-danger">
+                                true
+                            </td>
+                        }
+                        else
+                        {
+                            <td class=" bg-primary">
+                                false
+                            </td>
+                        }
+          
+                        
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

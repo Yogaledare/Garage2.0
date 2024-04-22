@@ -18,7 +18,8 @@ public static class DbInitializer {
                 Brand = "Toyota",
                 Model = "Corolla",
                 NumberOfWheels = 4,
-                ArrivalTime = DateTime.Now
+                ArrivalTime = DateTime.Now,      
+                ParkingSpot = new ParkingSpot(1,false)
             },
             new Vehicle {
                 LicensePlate = "DEF456",
@@ -27,7 +28,8 @@ public static class DbInitializer {
                 Brand = "Ford",
                 Model = "F-150",
                 NumberOfWheels = 4,
-                ArrivalTime = DateTime.Now.AddHours(-1)
+                ArrivalTime = DateTime.Now.AddHours(-1),
+                 ParkingSpot = new ParkingSpot(2,false)
             },
             new Vehicle {
                 LicensePlate = "GHI789",
@@ -36,7 +38,8 @@ public static class DbInitializer {
                 Brand = "Volvo",
                 Model = "7700",
                 NumberOfWheels = 6,
-                ArrivalTime = DateTime.Now.AddHours(-2)
+                ArrivalTime = DateTime.Now.AddHours(-2),
+                 ParkingSpot = new ParkingSpot(3,false)
             },
             new Vehicle {
                 LicensePlate = "JKL012",
@@ -45,7 +48,8 @@ public static class DbInitializer {
                 Brand = "Bayliner",
                 Model = "VR5",
                 NumberOfWheels = 0,
-                ArrivalTime = DateTime.Now.AddHours(-3)
+                ArrivalTime = DateTime.Now.AddHours(-3),
+                 ParkingSpot = new ParkingSpot(4,false)
             },
             new Vehicle {
                 LicensePlate = "MNO345",
@@ -54,7 +58,8 @@ public static class DbInitializer {
                 Brand = "Honda",
                 Model = "Civic",
                 NumberOfWheels = 4,
-                ArrivalTime = DateTime.Now.AddHours(-4)
+                ArrivalTime = DateTime.Now.AddHours(-4),
+                 ParkingSpot = new ParkingSpot(5,false)
             },
             new Vehicle {
                 LicensePlate = "PQR678",
@@ -63,7 +68,8 @@ public static class DbInitializer {
                 Brand = "Chevrolet",
                 Model = "Silverado",
                 NumberOfWheels = 4,
-                ArrivalTime = DateTime.Now.AddHours(-5)
+                ArrivalTime = DateTime.Now.AddHours(-5),
+                 ParkingSpot = new ParkingSpot(6,false)
             },
             new Vehicle {
                 LicensePlate = "STU901",
@@ -72,7 +78,8 @@ public static class DbInitializer {
                 Brand = "Scania",
                 Model = "Citywide",
                 NumberOfWheels = 6,
-                ArrivalTime = DateTime.Now.AddHours(-6)
+                ArrivalTime = DateTime.Now.AddHours(-6),
+                 ParkingSpot = new ParkingSpot(7,false)
             },
             new Vehicle {
                 LicensePlate = "VWX234",
@@ -81,7 +88,8 @@ public static class DbInitializer {
                 Brand = "Yamaha",
                 Model = "242X",
                 NumberOfWheels = 0,
-                ArrivalTime = DateTime.Now.AddHours(-7)
+                ArrivalTime = DateTime.Now.AddHours(-7),
+                 ParkingSpot = new ParkingSpot(8,false)
             },
             new Vehicle {
                 LicensePlate = "YZA567",
@@ -90,7 +98,8 @@ public static class DbInitializer {
                 Brand = "Ford",
                 Model = "Mustang",
                 NumberOfWheels = 4,
-                ArrivalTime = DateTime.Now.AddHours(-8)
+                ArrivalTime = DateTime.Now.AddHours(-8),
+                 ParkingSpot = new ParkingSpot(9,false)
             },
             new Vehicle {
                 LicensePlate = "BCD890",
@@ -99,7 +108,8 @@ public static class DbInitializer {
                 Brand = "Ram",
                 Model = "1500",
                 NumberOfWheels = 4,
-                ArrivalTime = DateTime.Now.AddHours(-9)
+                ArrivalTime = DateTime.Now.AddHours(-9),
+                 ParkingSpot = new ParkingSpot(10,false)
             }
         ];
 

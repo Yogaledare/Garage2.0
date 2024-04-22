@@ -4,57 +4,16 @@
     ViewData["Title"] = "Summary";
 }
 
-<h1>VEHICLES IN PARKING</h1>
-
-<div>Placeholder for search</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                License Plate
-            </th>
-            <th>
-                Vehicle Type
-            </th>
-            <th>
-               Arrival Time
-            </th>
-            <th>
-                Duration
-            </th>
-            <th>
-                Spot
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Vehicles)
+<div class="container mt-3">
+    <table class="table table-bordered">
+        @for (int i = 0; i < 10; i++)
         {
-            
-            var totalhours = (DateTime.Now - item.ArrivalTime).TotalHours;
-            
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LicensePlate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VehicleType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArrivalTime)
-                </td>
-                <td>
-                    @Math.Round(totalhours) hours
-                </td>
-                <td>
-                    Parked Spot : @item.ParkingSpot!.Spot
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.VehicleId">Update</a> |
-                    <a asp-action="Details" asp-route-id="@item.VehicleId">Vehicle Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.VehicleId">Remove</a>
-                </td>
+                @for (int j = 0; j < 10; j++)
+                {
+                   
+                }
             </tr>
         }
-    </tbody>
-</table>
+    </table>
+</div>

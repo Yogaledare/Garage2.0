@@ -1,4 +1,5 @@
 ﻿using Garage2._0.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Garage2._0.Models
 {
@@ -13,25 +14,18 @@ namespace Garage2._0.Models
         public ParkingSpotRepository(Garage2_0Context context)
         {
             _context = context;
-            onInit();
+            init();
         }
-        public void onInit()
+      
+         public void init()
         {
-            //Read all vehicles to repository
-            foreach(var v in _context.Vehicles)
+            var vehicles = _context.Vehicles.Include(v => v.ParkingSpot);
+            foreach (var vehicle in vehicles)
             {
-                if(v.ParkingSpot == null)
+                //TO, check null
+                if (!parkedVehicles.ContainsKey(vehicle.ParkingSpot.Spot))
                 {
-                    onParkVehicle(v);
-                }
-                else
-                {
-                    if (!usedSpots.Contains(v.ParkingSpot.Spot))
-                    {
-                        usedSpots.Add(v.ParkingSpot.Spot);
-                        parkedVehicles.Add(v.ParkingSpot.Spot, v);
-                        currentUsed++;
-                    }
+                    parkedVehicles.Add(vehicle.ParkingSpot.Spot, vehicle);
                 }
             }
         }
@@ -63,9 +57,9 @@ namespace Garage2._0.Models
 
         }
 
-        public List<Vehicle> AllParkedVehicles()
+        public List<int> AllParkedVehiclesIndex()
         {
-            return parkedVehicles.Values.ToList();
+            return parkedVehicles.Keys.ToList();
         }
     }
 }

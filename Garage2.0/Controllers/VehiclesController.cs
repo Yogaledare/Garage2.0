@@ -12,7 +12,7 @@ using Garage2._0.Models;
 namespace Garage2._0.Controllers {
     public class VehiclesController : Controller {
         private readonly Garage2_0Context _context;
-        private ParkingSpotRepository _parkingSpotRepository;
+        private  ParkingSpotRepository _parkingSpotRepository;
         public VehiclesController(Garage2_0Context context, ParkingSpotRepository parkingSpotRepository) {
             _context = context;
             _parkingSpotRepository = parkingSpotRepository;
@@ -20,7 +20,7 @@ namespace Garage2._0.Controllers {
 
         // GET: Vehicles
         public async Task<IActionResult> Index(string? licencePlateSearch = null) {
-            var vehicles = _context.Vehicles;
+            var vehicles = _context.Vehicles.Include(v => v.ParkingSpot);
             List<Vehicle> output;
 
             if (licencePlateSearch != null) {
@@ -30,10 +30,10 @@ namespace Garage2._0.Controllers {
                     .ToListAsync();
             }
             else {
-                //output = await vehicles
-                //    .WhereActive()
-                //    .ToListAsync();
-                output = _parkingSpotRepository.AllParkedVehicles();
+                output = await vehicles
+                    .WhereActive()
+                    .ToListAsync();
+                // output = _parkingSpotRepository.AllParkedVehicles();
             }
 
             SummaryViewModel m = new SummaryViewModel(output);
@@ -115,11 +115,12 @@ namespace Garage2._0.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
-            [Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels,ArrivalTime")]
+            [Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels")]
             Vehicle vehicle) {
-            if (id != vehicle.VehicleId) {
-                return NotFound();
-            }
+            //if (id != vehicle.VehicleId)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid) {
                 try {
@@ -186,6 +187,12 @@ namespace Garage2._0.Controllers {
 
         public IActionResult Invoice(string licensePlate, DateTime date) {
             InvoiceViewModel m = new InvoiceViewModel(licensePlate, date);
+            return View(m);
+        }
+
+        public IActionResult Spots()
+        {        
+            SpotViewModel m = new SpotViewModel(_parkingSpotRepository.AllParkedVehiclesIndex());
             return View(m);
         }
 

@@ -47,7 +47,7 @@
                     @Math.Round(totalhours) hours
                 </td>
                 <td>
-                    Parked Spot : @item.ParkingSpot!.Spot
+                    @Html.DisplayFor(modelItem => item.ParkingSpot.Spot)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
