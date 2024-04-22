@@ -1,8 +1,89 @@
-﻿@{
+﻿@model HomeViewModel 
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+
+        </div>
+        
+        <div class="col-lg-3">
+            <div id="wheelsChartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+
+
+        <div class="col-lg-6">
+             @* time plot should go here *@
+            <div id="timePlotContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+
+    </div>
+
 </div>
+
+
+@functions {
+    private string PrepareChartData(IEnumerable<VehicleTypeSummary> summaries, Func<VehicleTypeSummary, int> valueSelector) {
+        var dataPoints = summaries.Select(m => new {
+            label = m.VehicleType.ToString(),
+            y = valueSelector(m)
+        });
+
+        return System.Text.Json.JsonSerializer.Serialize(dataPoints);
+    }
+    
+    private string PrepareTimePlotData(IEnumerable<TimeEntry> timeEntries) {
+        // Assuming TimeEntries are sorted by TimeStamp
+        var count = 0;
+        var result = timeEntries.OrderBy(t => t.TimeStamp).Select(entry => {
+            count += (entry.VehicleCountChange == VehicleCountChange.Enter) ? 1 : -1;
+            return new {
+                x = entry.TimeStamp,
+                y = count
+            };
+        });
+
+        return System.Text.Json.JsonSerializer.Serialize(result);
+    }
+    
+    
+}
+
+
+@section Scripts {
+    <script src="~/js/charts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const vehicleTypesData = @Html.Raw(PrepareChartData(Model.VehicleTypeSummaries, m => m.Count));
+            const wheelsData = @Html.Raw(PrepareChartData(Model.VehicleTypeSummaries, m => m.TotalWheels));
+            const timePlotData = @Html.Raw(PrepareTimePlotData(Model.TimeEntries));
+
+            setupDoughnutCharts(vehicleTypesData, wheelsData);
+            createTimePlotChart("timePlotContainer", timePlotData);
+        });
+    </script>
+}
+
+
+@* *@
+@* @section Scripts { *@
+@*     <script src="~/js/charts.js"></script> *@
+@*     <script> *@
+@*      *@
+@*      *@
+@*      *@
+@*      *@
+@*      *@
+@*         document.addEventListener('DOMContentLoaded', function () { *@
+@*             const vehicleTypesData = @Html.Raw(Json.Serialize(Model.VehicleTypeSummaries.Select(m => new {label = m.VehicleType.ToString(), y = m.Count}))); *@
+@*             const wheelsData = @Html.Raw(Json.Serialize(Model.VehicleTypeSummaries.Select(m => new {label = m.VehicleType.ToString(), y = m.TotalWheels}))); *@
+@* *@
+@*             setupCharts(vehicleTypesData, wheelsData); *@
+@*         }); *@
+@*     </script> *@
+@* } *@
