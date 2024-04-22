@@ -93,9 +93,14 @@ namespace Garage2._0.Controllers {
         }
 
         // POST: Vehicles/ShowSearchResults
-        public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
-        {
-            return View("Index", await _context.Vehicles.Where(p=>p.LicensePlate.Contains(SearchPhrase)).ToListAsync());
+        public async Task<IActionResult> ShowSearchResults(String SearchPhrase) {
+            var searchResult = await _context.Vehicles
+                .Where(p => p.LicensePlate.Contains(SearchPhrase))
+                .ToListAsync();
+
+            var summaryViewModel = new SummaryViewModel(searchResult);
+            
+            return View("Index", summaryViewModel);
         }
 
         // GET: Vehicles/Edit/5
