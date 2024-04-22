@@ -4,7 +4,15 @@
     ViewData["Title"] = "Summary";
 }
 @{
-    List<int> ints = Model.Spots;
+    List<int> usedSpots = new List<int>();
+    IEnumerable<Vehicle> currentVehicleinList = Model.Vehicles;
+    foreach(var v in currentVehicleinList)
+    {
+        if (v.ParkingSpot != null)
+        {
+            usedSpots.Add(v.ParkingSpot.Spot);
+        }
+    }
     int availbleSpots = 100 - Model.Spots.Count;
 }
 <h1>Parking Lot</h1>
@@ -74,7 +82,7 @@
                         @for (int col = 0; col < 10; col++)
                         {
                             int index = row * 10 + col + 1;
-                            if (ints.Contains(index))
+                            if (usedSpots.Contains(index))
                             {
                                 <td class=" bg-danger">
                                     X
