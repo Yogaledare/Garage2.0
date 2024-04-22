@@ -5,35 +5,26 @@
 @{
     ViewData["Title"] = "Spots";
 }
-<style>
-    .data-present {
-        background-color: red;
-    }
-
-    .data-absent {
-        background-color: green;
-    }
-</style>
 
 <div class="container mt-3">
     <table class="table table-bordered">
         <tbody>
-            @for (int row = 0; row < 10; row++)
+            @for (int row = 0; row <=10; row++)
             {
                 <tr>
-                    @for (int col = 0; col < 10; col++)
+                    @for (int col = 0; col <10; col++)
                     {
-                        int index = row * 10 + col;
+                        int index = row * 10 + col+1;
                         if (ints.Contains(index))
                         {
                             <td class=" bg-danger">
-                                true
+                                X
                             </td>
                         }
                         else
                         {
                             <td class=" bg-primary">
-                                false
+                               O
                             </td>
                         }
           

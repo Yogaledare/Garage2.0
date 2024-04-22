@@ -37,7 +37,7 @@ namespace Garage2._0.Controllers {
                 // output = _parkingSpotRepository.AllParkedVehicles();
             }
 
-            SummaryViewModel m = new SummaryViewModel(output);
+            SummaryViewModel m = new SummaryViewModel(output,_parkingSpotRepository.AllParkedVehiclesIndex());
 
             return View(m);
         }
@@ -102,7 +102,7 @@ namespace Garage2._0.Controllers {
                 .Where(p => p.LicensePlate.Contains(SearchPhrase))
                 .ToListAsync();
 
-            var summaryViewModel = new SummaryViewModel(searchResult);
+            var summaryViewModel = new SummaryViewModel(searchResult,_parkingSpotRepository.AllParkedVehiclesIndex());
             
             return View("Index", summaryViewModel);
         }
@@ -144,7 +144,7 @@ namespace Garage2._0.Controllers {
 
 
             var vehicles = await query.ToListAsync();
-            var summaryViewModel = new SummaryViewModel(vehicles);
+            var summaryViewModel = new SummaryViewModel(vehicles, _parkingSpotRepository.AllParkedVehiclesIndex());
 
             return View("Index", summaryViewModel);
         }
@@ -254,11 +254,12 @@ namespace Garage2._0.Controllers {
             return View(m);
         }
 
-        public IActionResult Spots()
-        {        
-            SpotViewModel m = new SpotViewModel(_parkingSpotRepository.AllParkedVehiclesIndex());
-            return View(m);
-        }
+        //public IActionResult Spots()
+        //{
+        //    //SpotViewModel m = new SpotViewModel(_parkingSpotRepository.AllParkedVehiclesIndex());
+        //    SummaryViewModel m = new SummaryViewModel(_context.Vehicles, _parkingSpotRepository.AllParkedVehiclesIndex());
+        //    return View(m);
+        //}
 
         // public IActionResult Summary()
         // {

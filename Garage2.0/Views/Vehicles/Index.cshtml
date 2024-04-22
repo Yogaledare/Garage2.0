@@ -3,58 +3,93 @@
 @{
     ViewData["Title"] = "Summary";
 }
-
+@{
+    List<int> ints = Model.Spots;
+    int availbleSpots = 100 - Model.Spots.Count;
+}
 <h1>Parking Lot</h1>
 
-<div>Placeholder for search</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                License Plate
-            </th>
-            <th>
-                VehicleType
-            </th>
-            <th>
-               Arrived Time
-            </th>
-            <th>
-                Duration
-            </th>
-            <th>
-                Spot
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Vehicles)
-        {
-            
-            var totalhours = (DateTime.Now - item.ArrivalTime).TotalHours;
-            
+<div>Current amount avaliable empty spots: @availbleSpots</div>
+<div>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LicensePlate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VehicleType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArrivalTime)
-                </td>
-                <td>
-                    @Math.Round(totalhours) hours
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParkingSpot.Spot)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
-                </td>
+                <th>
+                    License Plate
+                </th>
+                <th>
+                    VehicleType
+                </th>
+                <th>
+                    Arrived Time
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th>
+                    Spot
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Vehicles)
+            {
+
+                var totalhours = (DateTime.Now - item.ArrivalTime).TotalHours;
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LicensePlate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VehicleType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArrivalTime)
+                    </td>
+                    <td>
+                        @Math.Round(totalhours) hours
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ParkingSpot.Spot)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.VehicleId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.VehicleId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.VehicleId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<div>
+    <div class="container mt-3">
+        <table class="table table-bordered">
+            <tbody>
+                @for (int row = 0; row <= 10; row++)
+                {
+                    <tr>
+                        @for (int col = 0; col < 10; col++)
+                        {
+                            int index = row * 10 + col + 1;
+                            if (ints.Contains(index))
+                            {
+                                <td class=" bg-danger">
+                                    X
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="bg-success">
+                                    O
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
