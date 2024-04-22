@@ -179,31 +179,40 @@ namespace Garage2._0.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
-            [Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels")]
-            Vehicle vehicle) {
-            //if (id != vehicle.VehicleId)
-            //{
-            //    return NotFound();
-            //}
-
-            if (ModelState.IsValid) {
-                try {
-                    _context.Update(vehicle);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException) {
-                    if (!VehicleExists(vehicle.VehicleId)) {
-                        return NotFound();
-                    }
-                    else {
-                        throw;
-                    }
-                }
-
-                return RedirectToAction(nameof(Index));
+            [Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels")] Vehicle vehicleUpdateModel) {
+            if (!ModelState.IsValid) {
+                return View(vehicleUpdateModel);
             }
 
-            return View(vehicle);
+            var vehicle = await _context.Vehicles
+                .WhereActive()
+                .FirstOrDefaultAsync(v => v.VehicleId == id);
+
+            if (vehicle == null) {
+                return NotFound(); 
+            }
+            
+            vehicle.LicensePlate = vehicleUpdateModel.LicensePlate;
+            vehicle.VehicleType = vehicleUpdateModel.VehicleType;
+            vehicle.Color = vehicleUpdateModel.Color;
+            vehicle.Brand = vehicleUpdateModel.Brand;
+            vehicle.Model = vehicleUpdateModel.Model;
+            vehicle.NumberOfWheels = vehicleUpdateModel.NumberOfWheels;
+            
+            try {
+                _context.Update(vehicle);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) {
+                if (!VehicleExists(vehicle.VehicleId)) {
+                    return NotFound();
+                }
+                else {
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Vehicles/Delete/5
