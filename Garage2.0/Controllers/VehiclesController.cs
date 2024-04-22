@@ -68,14 +68,9 @@ namespace Garage2._0.Controllers {
         public async Task<IActionResult> Create(
             [Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels")]
             Vehicle vehicle) {
-            var searchResult = _context.Vehicles
-                .WhereActive()
-                .Any(v => v.LicensePlate == vehicle.LicensePlate);
 
-            if (searchResult) {
-                ModelState.AddModelError("LicensePlate", "A vehicle with this license plate already exists.");
-            }
-
+            await ValidateLicensePlateUniqueness(vehicle.LicensePlate!); 
+            
             vehicle.ArrivalTime = DateTime.Now;
 
             // vehicle.LicensePlate
@@ -88,6 +83,20 @@ namespace Garage2._0.Controllers {
 
             return View(vehicle);
         }
+        
+        
+        private async Task ValidateLicensePlateUniqueness(string licensePlate) {
+            var licensePlateExists = await _context.Vehicles
+                .WhereActive()
+                .AnyAsync(v => v.LicensePlate == licensePlate);
+
+            if (licensePlateExists) {
+                ModelState.AddModelError("LicensePlate", "A vehicle with this license plate already exists.");
+            }
+        }
+
+        
+        
 
 
         // GET: Vehicles/ShowSearchForm
@@ -180,16 +189,20 @@ namespace Garage2._0.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
             [Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels")] Vehicle vehicleUpdateModel) {
-            if (!ModelState.IsValid) {
-                return View(vehicleUpdateModel);
-            }
-
             var vehicle = await _context.Vehicles
                 .WhereActive()
                 .FirstOrDefaultAsync(v => v.VehicleId == id);
 
             if (vehicle == null) {
-                return NotFound(); 
+                return NotFound();
+            }
+
+            if (vehicle.LicensePlate != vehicleUpdateModel.LicensePlate) {
+                await ValidateLicensePlateUniqueness(vehicleUpdateModel.LicensePlate!); 
+            }
+
+            if (!ModelState.IsValid) {
+                return View(vehicleUpdateModel);
             }
             
             vehicle.LicensePlate = vehicleUpdateModel.LicensePlate;
