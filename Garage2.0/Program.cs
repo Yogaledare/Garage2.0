@@ -9,6 +9,8 @@ builder.Services.AddDbContext<Garage2_0Context>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//Add spot service
+builder.Services.AddScoped<ParkingSpotRepository>();
 
 var app = builder.Build();
 

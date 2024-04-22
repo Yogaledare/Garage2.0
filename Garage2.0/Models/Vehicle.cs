@@ -36,4 +36,6 @@ public class Vehicle {
     public DateTime ArrivalTime { get; set; }
 
     public DateTime? DepartureTime { get; set; }
+
+    public ParkingSpot? ParkingSpot { get; set; }
 }

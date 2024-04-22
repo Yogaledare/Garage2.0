@@ -12,9 +12,10 @@ using Garage2._0.Models;
 namespace Garage2._0.Controllers {
     public class VehiclesController : Controller {
         private readonly Garage2_0Context _context;
-
-        public VehiclesController(Garage2_0Context context) {
+        private ParkingSpotRepository _parkingSpotRepository;
+        public VehiclesController(Garage2_0Context context, ParkingSpotRepository parkingSpotRepository) {
             _context = context;
+            _parkingSpotRepository = parkingSpotRepository;
         }
 
         // GET: Vehicles
@@ -29,9 +30,10 @@ namespace Garage2._0.Controllers {
                     .ToListAsync();
             }
             else {
-                output = await vehicles
-                    .WhereActive()
-                    .ToListAsync();
+                //output = await vehicles
+                //    .WhereActive()
+                //    .ToListAsync();
+                output = _parkingSpotRepository.AllParkedVehicles();
             }
 
             SummaryViewModel m = new SummaryViewModel(output);
@@ -77,6 +79,7 @@ namespace Garage2._0.Controllers {
 
             // vehicle.LicensePlate
             if (ModelState.IsValid) {
+                vehicle = _parkingSpotRepository.onParkVehicle(vehicle)!;
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
