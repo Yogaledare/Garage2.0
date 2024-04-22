@@ -74,6 +74,19 @@ namespace Garage2._0.Controllers
             return View(vehicle);
         }
 
+
+        // GET: Vehicles/ShowSearchForm
+        public async Task<IActionResult> ShowSearchForm()
+        {
+            return View();
+        }
+
+        // POST: Vehicles/ShowSearchResults
+        public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
+        {
+            return View("Index", await _context.Vehicles.Where(p=>p.LicensePlate.Contains(SearchPhrase)).ToListAsync());
+        }
+
         // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
