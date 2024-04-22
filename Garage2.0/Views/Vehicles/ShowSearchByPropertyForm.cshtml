@@ -1,0 +1,109 @@
+﻿@model Garage2._0.Models.SummaryViewModel
+
+
+@{
+    ViewData["Title"] = "ShowSearchByPropertyForm";
+}
+
+<h4>Properties</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ShowSearchByPropertyFormResults" method="post">
+
+
+            <div class="form-group">
+                <label for="VehicleType" class="control-label">Vehicle Type</label>
+                <select name="VehicleType" asp-items="Html.GetEnumSelectList<VehicleType>()" class="form-control">
+                    <option value="">Any Type</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Color" class="control-label"></label>
+                <input name="Color" class="form-control" placeholder="Any Color" />
+            </div>
+            <div class="form-group">
+                <label for="Brand" class="control-label"></label>
+                <input name="Brand" class="form-control" placeholder="Any Brand" />
+            </div>
+            <div class="form-group">
+                <label for="Model" class="control-label"></label>
+                <input name="Model" class="form-control" placeholder="Any Model" />
+            </div>
+            <div class="form-group">
+                <label for="NumberOfWheels" class="control-label"></label>
+                <input name="NumberOfWheels" class="form-control" placeholder="Any Number of Wheels" />
+            </div>
+         
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@* <h1>ShowSearchByPropertyForm</h1>
+
+<h4>Vehicle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ShowSearchByPropertyForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LicensePlate" class="control-label"></label>
+                <input asp-for="LicensePlate" class="form-control" />
+                <span asp-validation-for="LicensePlate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleType" class="control-label"></label>
+                <select asp-for="VehicleType" class="form-control"></select>
+                <span asp-validation-for="VehicleType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Color" class="control-label"></label>
+                <input asp-for="Color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Brand" class="control-label"></label>
+                <input asp-for="Brand" class="form-control" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model" class="control-label"></label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfWheels" class="control-label"></label>
+                <input asp-for="NumberOfWheels" class="form-control" />
+                <span asp-validation-for="NumberOfWheels" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArrivalTime" class="control-label"></label>
+                <input asp-for="ArrivalTime" class="form-control" />
+                <span asp-validation-for="ArrivalTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartureTime" class="control-label"></label>
+                <input asp-for="DepartureTime" class="form-control" />
+                <span asp-validation-for="DepartureTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div> *@
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
