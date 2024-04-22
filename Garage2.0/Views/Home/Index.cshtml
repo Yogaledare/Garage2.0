@@ -15,8 +15,12 @@
         <div class="col-lg-3">
             <div id="wheelsChartContainer" style="height: 370px; width: 100%;"></div>
         </div>
-        
-        
+
+
+        <div class="col-lg-6">
+             @* time plot should go here *@
+            <div id="timePlotContainer" style="height: 370px; width: 100%;"></div>
+        </div>
 
     </div>
 
@@ -32,6 +36,22 @@
 
         return System.Text.Json.JsonSerializer.Serialize(dataPoints);
     }
+    
+    private string PrepareTimePlotData(IEnumerable<TimeEntry> timeEntries) {
+        // Assuming TimeEntries are sorted by TimeStamp
+        var count = 0;
+        var result = timeEntries.OrderBy(t => t.TimeStamp).Select(entry => {
+            count += (entry.VehicleCountChange == VehicleCountChange.Enter) ? 1 : -1;
+            return new {
+                x = entry.TimeStamp,
+                y = count
+            };
+        });
+
+        return System.Text.Json.JsonSerializer.Serialize(result);
+    }
+    
+    
 }
 
 
@@ -41,8 +61,10 @@
         document.addEventListener('DOMContentLoaded', function () {
             const vehicleTypesData = @Html.Raw(PrepareChartData(Model.VehicleTypeSummaries, m => m.Count));
             const wheelsData = @Html.Raw(PrepareChartData(Model.VehicleTypeSummaries, m => m.TotalWheels));
+            const timePlotData = @Html.Raw(PrepareTimePlotData(Model.TimeEntries));
 
-            setupCharts(vehicleTypesData, wheelsData);
+            setupDoughnutCharts(vehicleTypesData, wheelsData);
+            createTimePlotChart("timePlotContainer", timePlotData);
         });
     </script>
 }
