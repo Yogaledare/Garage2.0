@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Garage2._0.Data;
 using Garage2._0.Extensions;
 using Garage2._0.Models;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 
 namespace Garage2._0.Controllers {
     public class VehiclesController : Controller {
@@ -102,6 +103,51 @@ namespace Garage2._0.Controllers {
             
             return View("Index", summaryViewModel);
         }
+
+        // GET: Vehicles/ShowSearchByPropertyForm
+        public async Task<IActionResult> ShowSearchByPropertyForm()
+        {
+            return View();
+        }
+
+        // GET: Vehicles/ShowSearchByPropertyFormResults
+        public async Task<IActionResult> ShowSearchByPropertyFormResults(VehicleType? vehicleType, string color, string brand, string model, int? numberOfWheels)
+        {
+            IQueryable<Vehicle> query = _context.Vehicles;
+
+            if (vehicleType.HasValue)
+            {
+                query = query.Where(v => v.VehicleType == vehicleType.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(color))
+            {
+                query = query.Where(v => v.Color.ToLower().Contains(color.ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(brand))
+            {
+                query = query.Where(v => v.Brand.ToLower().Contains(brand.ToLower()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(model))
+            {
+                query = query.Where(v => v.Model.ToLower().Contains(model.ToLower()));
+            }
+            if (numberOfWheels.HasValue)
+            {
+                query = query.Where(v => v.NumberOfWheels == numberOfWheels.Value);
+            }
+
+
+            var vehicles = await query.ToListAsync();
+            var summaryViewModel = new SummaryViewModel(vehicles);
+
+            return View("Index", summaryViewModel);
+        }
+
+     
+
 
         // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int id) {
