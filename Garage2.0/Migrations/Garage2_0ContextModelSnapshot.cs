@@ -38,7 +38,7 @@ namespace Garage2._0.Migrations
 
                     b.HasKey("ParkingSpotId");
 
-                    b.ToTable("ParkingSpot");
+                    b.ToTable("ParkingSpots");
                 });
 
             modelBuilder.Entity("Garage2._0.Models.Vehicle", b =>

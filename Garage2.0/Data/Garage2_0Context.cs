@@ -13,7 +13,8 @@ namespace Garage2._0.Data
             : base(options)
         {
         }
-
+     
         public DbSet<Garage2._0.Models.Vehicle> Vehicles { get; set; } = default!;
+        public DbSet<ParkingSpot> ParkingSpots { get; set;} = default!;
     }
 }
