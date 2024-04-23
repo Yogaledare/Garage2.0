@@ -214,6 +214,7 @@ namespace Garage2._0.Controllers {
                 }
             }
 
+            TempData["SuccessMessage"] = "Vehicle edited successfully!";
             return RedirectToAction(nameof(Index));
         }
 
