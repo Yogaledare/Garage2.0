@@ -78,6 +78,7 @@ namespace Garage2._0.Controllers {
                 vehicle = _parkingSpotRepository.onParkVehicle(vehicle)!;
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Vehicle parked successfully!";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -215,6 +216,7 @@ namespace Garage2._0.Controllers {
             
             try {
                 _context.Update(vehicle);
+                TempData["SuccessMessage"] = "Vehicle edited successfully!";
                 await _context.SaveChangesAsync();
                
             }
