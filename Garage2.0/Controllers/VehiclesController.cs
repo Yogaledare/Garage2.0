@@ -204,7 +204,7 @@ namespace Garage2._0.Controllers {
             try {
                 _context.Update(vehicle);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Vehicle edited successfully!";
+                
             }
             catch (DbUpdateConcurrencyException) {
                 if (!VehicleExists(vehicle.VehicleId)) {
