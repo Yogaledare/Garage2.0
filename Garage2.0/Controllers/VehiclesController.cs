@@ -68,14 +68,9 @@ namespace Garage2._0.Controllers {
         public async Task<IActionResult> Create(
             [Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels")]
             Vehicle vehicle) {
-            var searchResult = _context.Vehicles
-                .WhereActive()
-                .Any(v => v.LicensePlate == vehicle.LicensePlate);
 
-            if (searchResult) {
-                ModelState.AddModelError("LicensePlate", "A vehicle with this license plate already exists.");
-            }
-
+            await ValidateLicensePlateUniqueness(vehicle.LicensePlate!); 
+            
             vehicle.ArrivalTime = DateTime.Now;
 
             // vehicle.LicensePlate
@@ -90,6 +85,20 @@ namespace Garage2._0.Controllers {
 
             return View(vehicle);
         }
+        
+        
+        private async Task ValidateLicensePlateUniqueness(string licensePlate) {
+            var licensePlateExists = await _context.Vehicles
+                .WhereActive()
+                .AnyAsync(v => v.LicensePlate == licensePlate);
+
+            if (licensePlateExists) {
+                ModelState.AddModelError("LicensePlate", "A vehicle with this license plate already exists.");
+            }
+        }
+
+        
+        
 
 
         // GET: Vehicles/ShowSearchForm
@@ -101,6 +110,7 @@ namespace Garage2._0.Controllers {
         // POST: Vehicles/ShowSearchResults
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase) {
             var searchResult = await _context.Vehicles
+                .WhereActive()
                 .Where(p => p.LicensePlate.Contains(SearchPhrase))
                 .ToListAsync();
 
@@ -118,7 +128,7 @@ namespace Garage2._0.Controllers {
         // GET: Vehicles/ShowSearchByPropertyFormResults
         public async Task<IActionResult> ShowSearchByPropertyFormResults(VehicleType? vehicleType, string color, string brand, string model, int? numberOfWheels)
         {
-            IQueryable<Vehicle> query = _context.Vehicles;
+            IQueryable<Vehicle> query = _context.Vehicles.WhereActive();
 
             if (vehicleType.HasValue)
             {
@@ -182,16 +192,20 @@ namespace Garage2._0.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
             [Bind("LicensePlate,VehicleType,Color,Brand,Model,NumberOfWheels")] Vehicle vehicleUpdateModel) {
-            if (!ModelState.IsValid) {
-                return View(vehicleUpdateModel);
-            }
-
             var vehicle = await _context.Vehicles
                 .WhereActive()
                 .FirstOrDefaultAsync(v => v.VehicleId == id);
 
             if (vehicle == null) {
-                return NotFound(); 
+                return NotFound();
+            }
+
+            if (vehicle.LicensePlate != vehicleUpdateModel.LicensePlate) {
+                await ValidateLicensePlateUniqueness(vehicleUpdateModel.LicensePlate!); 
+            }
+
+            if (!ModelState.IsValid) {
+                return View(vehicleUpdateModel);
             }
             
             vehicle.LicensePlate = vehicleUpdateModel.LicensePlate;
@@ -220,6 +234,7 @@ namespace Garage2._0.Controllers {
         }
 
         // GET: Vehicles/Delete/5
+        //Display a confirmation page to confirm whether the user really wants to delete this item
         public async Task<IActionResult> Delete(int id) {
             // if (id == null)
             // {
@@ -237,10 +252,11 @@ namespace Garage2._0.Controllers {
         }
 
         // POST: Vehicles/Delete/5
+        //Handle the actual delete operation
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id) {
-            //ArgumentException: The key value at position 0 of the call to 'DbSet<Vehicle>.Find' was of type 'string', which does not match the property type of 'int'.
+        
             var vehicle = await _context.Vehicles
                 .WhereActive()
                 .FirstOrDefaultAsync(v => v.VehicleId == id);
@@ -250,6 +266,7 @@ namespace Garage2._0.Controllers {
             }
 
             vehicle.DepartureTime = DateTime.Now;
+            _parkingSpotRepository.onLeaveVehicle(vehicle);
             _context.Update(vehicle);
             await _context.SaveChangesAsync();
 

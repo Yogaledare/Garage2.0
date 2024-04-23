@@ -23,10 +23,13 @@ namespace Garage2._0.Models
             foreach (var vehicle in vehicles)
             {
                 //TO, check null
-                if (!parkedVehicles.ContainsKey(vehicle.ParkingSpot.Spot))
+                if (vehicle.ParkingSpot != null)
                 {
-                    parkedVehicles.Add(vehicle.ParkingSpot.Spot, vehicle);
-                }
+                    if (!parkedVehicles.ContainsKey(vehicle.ParkingSpot.Spot))
+                    {
+                        parkedVehicles.Add(vehicle.ParkingSpot.Spot, vehicle);
+                    }
+                }            
             }
         }
 
@@ -54,7 +57,13 @@ namespace Garage2._0.Models
 
         public void onLeaveVehicle(Vehicle v)
         {
-
+            if (v.ParkingSpot!= null && parkedVehicles.Keys.Contains(v.ParkingSpot.Spot))
+            {
+                parkedVehicles.Remove(v.ParkingSpot.Spot);
+                usedSpots.Remove(v.ParkingSpot.Spot);
+                currentUsed--;
+                v.ParkingSpot = null;
+            }
         }
 
         public List<int> AllParkedVehiclesIndex()

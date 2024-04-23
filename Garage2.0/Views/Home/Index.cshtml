@@ -5,26 +5,29 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container">
+@* <div class="container"> *@
+<div>
+    <h1 class="mb-3">Fancy Statistics</h1>
+    <hr />
     <div class="row">
         <div class="col-lg-3">
             <div id="chartContainer" style="height: 370px; width: 100%;"></div>
 
         </div>
-        
+
         <div class="col-lg-3">
             <div id="wheelsChartContainer" style="height: 370px; width: 100%;"></div>
         </div>
 
 
         <div class="col-lg-6">
-             @* time plot should go here *@
+            @* time plot should go here *@
             <div id="timePlotContainer" style="height: 370px; width: 100%;"></div>
         </div>
 
     </div>
-
 </div>
+@* </div> *@
 
 
 @functions {
@@ -37,22 +40,16 @@
         return System.Text.Json.JsonSerializer.Serialize(dataPoints);
     }
     
-    private string PrepareTimePlotData(IEnumerable<TimeEntry> timeEntries) {
-        // Assuming TimeEntries are sorted by TimeStamp
-        var count = 0;
-        var result = timeEntries.OrderBy(t => t.TimeStamp).Select(entry => {
-            count += (entry.VehicleCountChange == VehicleCountChange.Enter) ? 1 : -1;
-            return new {
-                x = entry.TimeStamp,
-                y = count
-            };
+    private string PrepareTimePlotData(IEnumerable<AggregatedTimeEntry> timeEntries) {
+        var result = timeEntries.OrderBy(t => t.TimeStamp).Select(entry => new {
+            x = entry.TimeStamp,
+            y = entry.VehicleCount
         });
 
         return System.Text.Json.JsonSerializer.Serialize(result);
     }
-    
-    
 }
+
 
 
 @section Scripts {
@@ -69,21 +66,3 @@
     </script>
 }
 
-
-@* *@
-@* @section Scripts { *@
-@*     <script src="~/js/charts.js"></script> *@
-@*     <script> *@
-@*      *@
-@*      *@
-@*      *@
-@*      *@
-@*      *@
-@*         document.addEventListener('DOMContentLoaded', function () { *@
-@*             const vehicleTypesData = @Html.Raw(Json.Serialize(Model.VehicleTypeSummaries.Select(m => new {label = m.VehicleType.ToString(), y = m.Count}))); *@
-@*             const wheelsData = @Html.Raw(Json.Serialize(Model.VehicleTypeSummaries.Select(m => new {label = m.VehicleType.ToString(), y = m.TotalWheels}))); *@
-@* *@
-@*             setupCharts(vehicleTypesData, wheelsData); *@
-@*         }); *@
-@*     </script> *@
-@* } *@

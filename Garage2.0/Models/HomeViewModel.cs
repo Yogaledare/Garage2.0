@@ -3,7 +3,7 @@
 public class HomeViewModel {
 
     public List<VehicleTypeSummary> VehicleTypeSummaries { get; set; } = [];
-    public List<TimeEntry> TimeEntries { get; set; } = []; 
+    public List<AggregatedTimeEntry> TimeEntries { get; set; } = []; 
 }
 
 public class VehicleTypeSummary {
@@ -13,9 +13,9 @@ public class VehicleTypeSummary {
 }
 
 
-public class TimeEntry {
+public class AggregatedTimeEntry {
     public DateTime TimeStamp { get; set; }
-    public VehicleCountChange VehicleCountChange { get; set; }
+    public int VehicleCount { get; set; }
 }
 
 
