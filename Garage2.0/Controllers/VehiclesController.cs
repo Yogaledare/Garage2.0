@@ -78,8 +78,6 @@ namespace Garage2._0.Controllers {
                 vehicle = _parkingSpotRepository.onParkVehicle(vehicle)!;
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Vehicle parked successfully!";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -218,7 +216,7 @@ namespace Garage2._0.Controllers {
             try {
                 _context.Update(vehicle);
                 await _context.SaveChangesAsync();
-                
+               
             }
             catch (DbUpdateConcurrencyException) {
                 if (!VehicleExists(vehicle.VehicleId)) {
@@ -229,7 +227,6 @@ namespace Garage2._0.Controllers {
                 }
             }
 
-            TempData["SuccessMessage"] = "Vehicle edited successfully!";
             return RedirectToAction(nameof(Index));
         }
 
@@ -266,18 +263,8 @@ namespace Garage2._0.Controllers {
             }
 
             vehicle.DepartureTime = DateTime.Now;
-            var sId = _parkingSpotRepository.onLeaveVehicle(vehicle);
+            _parkingSpotRepository.onLeaveVehicle(vehicle);
             _context.Update(vehicle);
-           if(sId != null)
-            {
-                var parkingSpot = await _context.ParkingSpots.FindAsync(sId);
-                if (parkingSpot != null) {
-                    _context.ParkingSpots.Remove(parkingSpot);
-             
-                }
-
-            }
-           
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Invoice", new {licensePlate = vehicle.LicensePlate, date = vehicle.ArrivalTime});
