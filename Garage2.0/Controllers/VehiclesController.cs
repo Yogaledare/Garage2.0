@@ -262,8 +262,18 @@ namespace Garage2._0.Controllers {
             }
 
             vehicle.DepartureTime = DateTime.Now;
-            _parkingSpotRepository.onLeaveVehicle(vehicle);
+            var sId = _parkingSpotRepository.onLeaveVehicle(vehicle);
             _context.Update(vehicle);
+           if(sId != null)
+            {
+                var parkingSpot = await _context.ParkingSpots.FindAsync(sId);
+                if (parkingSpot != null) {
+                    _context.ParkingSpots.Remove(parkingSpot);
+             
+                }
+
+            }
+           
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Invoice", new {licensePlate = vehicle.LicensePlate, date = vehicle.ArrivalTime});

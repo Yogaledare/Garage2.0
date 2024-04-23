@@ -55,15 +55,18 @@ namespace Garage2._0.Models
             }
         }
 
-        public void onLeaveVehicle(Vehicle v)
+        public int? onLeaveVehicle(Vehicle v)
         {
             if (v.ParkingSpot!= null && parkedVehicles.Keys.Contains(v.ParkingSpot.Spot))
             {
+                var spotId = v.ParkingSpot.ParkingSpotId;
                 parkedVehicles.Remove(v.ParkingSpot.Spot);
-                usedSpots.Remove(v.ParkingSpot.Spot);
+                usedSpots.Remove(v.ParkingSpot.Spot);               
                 currentUsed--;
                 v.ParkingSpot = null;
+                return spotId;
             }
+            return null;
         }
 
         public List<int> AllParkedVehiclesIndex()
