@@ -8,6 +8,13 @@
     int availableSpots = 100 - Model.Spots.Count;
 }
 <h1>Parking Lot</h1>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 
 <div>Number of available empty spots: @availableSpots</div>
 <div>
