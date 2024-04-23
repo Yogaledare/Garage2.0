@@ -108,6 +108,7 @@ namespace Garage2._0.Controllers {
         // POST: Vehicles/ShowSearchResults
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase) {
             var searchResult = await _context.Vehicles
+                .WhereActive()
                 .Where(p => p.LicensePlate.Contains(SearchPhrase))
                 .ToListAsync();
 
@@ -125,7 +126,7 @@ namespace Garage2._0.Controllers {
         // GET: Vehicles/ShowSearchByPropertyFormResults
         public async Task<IActionResult> ShowSearchByPropertyFormResults(VehicleType? vehicleType, string color, string brand, string model, int? numberOfWheels)
         {
-            IQueryable<Vehicle> query = _context.Vehicles;
+            IQueryable<Vehicle> query = _context.Vehicles.WhereActive();
 
             if (vehicleType.HasValue)
             {
